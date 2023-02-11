@@ -1,0 +1,26 @@
+{
+  "name": "ifood_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FernandoL9/Rocket_food_Backend.git"
+  },
+  "keywords": [],
+  "author": "Fernando Lemos",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FernandoL9/Rocket_food_Backend/issues"
+  },
+  "homepage": "https://github.com/FernandoL9/Rocket_food_Backend#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.34.0"
+  }
+}
