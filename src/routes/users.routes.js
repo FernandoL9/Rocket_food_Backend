@@ -1,12 +1,12 @@
-const { Router } = require("express");
+const {Router} = require("express") // import router
 
-const usersRouter = Router();
+const usersRouter = Router() // starting router
 
-// function to upload dados
+//
 usersRouter.post("/", (request, response) => {
-	const {name, email, password} = request.body;
+	const {name, email, password} = request.body
 
-	response.json({name, email, password});
-});
+	response.json({name, email, password})
+})
 
-module.exports = usersRouter;
+module.exports = usersRouter
