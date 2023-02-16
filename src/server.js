@@ -28,7 +28,7 @@ app.use((error, request, response, next) => {
 
   console.log(error)
 
-  return response.statusCode(500).json({
+  return response.status(500).json({
     status: "error",
     message: "internal server error"
   })

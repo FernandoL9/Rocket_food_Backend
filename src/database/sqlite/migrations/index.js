@@ -1,7 +1,8 @@
-const sqliteConnection = require("../../sqlite")
-const createUsers = require("./createUsers")
+const sqliteConnection = require("../../sqlite") // import the connection database
+const createUsers = require("./createUsers") // import of methodo for create User
 
-async function migrationsRun(){
+// function for table create
+async function migrationsRun() {
   const schemas = [
     createUsers
   ].join("")

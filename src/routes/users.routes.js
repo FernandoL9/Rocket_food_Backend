@@ -8,5 +8,6 @@ const usersController = new UsersController()
 
 //upload dados
 usersRouter.post("/", usersController.create)
+usersRouter.put("/:id", usersController.update)
 
 module.exports = usersRouter
