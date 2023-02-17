@@ -5,7 +5,7 @@ const sqliteConnection = require("../database/sqlite")
 
 class UsersController {
 
-  //create users
+  //create user
   async  create(request, response) {
     const {name, email, password} = request.body
 
@@ -31,51 +31,66 @@ class UsersController {
     // response.status(200).json({name, email, password})
   }
   
-  async update(request, response) {
-    const {name, email, password, old_Password} = request.body
-    const {id}          = request.params
+  //update user
+ async update(request, response) {
+  // data user
+  const {name, email, password, old_Password} = request.body
+  const {id}                                  = request.params
 
-    const database = await sqliteConnection()
+  // Starting connection with database
+  const database = await sqliteConnection() 
 
-    const user = await database.get("SELECT * FROM users WHERE id = (?)", [id])
+  // Search user 
+  const user = await database.get("SELECT * FROM users WHERE id = (?)",[id]) 
 
-    if(!user) {
-      throw new AppError("User not found!")
-    }
-
-    const userWithUpdatedEmail = await database.get("SELECT * FROM users WHERE email = (?)", [email])
-
-    if(userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
-      throw new AppError("Email already another user!")
-    }
-
-    user.name = name
-    user.email = email
-
-    if(password && !old_Password) {
-      throw new AppError("Old password not informed")
-    }
-
-    if(password && old_Password) {
-      const checkOldPassord = await compare(old_Password, user.password )
-
-      if(!checkOldPassord) {
-        throw new AppError("The old password is not corect")
-      }
-
-      user.password = await hash(old_Password, 8)
-    }
-
-    database.run(`UPDATE users SET
-      name = ?,
-      email = ?,
-      password = ?,
-      updated_at = ?
-      WHERE id = ?`, [user.name, user.email, user.password, new Date(), id])
-
-    return response.status(201).json()
+  //catch error user not registered 
+  if(!user) {
+    throw new AppError("User not found") 
   }
+
+  // Search email
+  const userWithUpdatedEmail = await database
+  .get("SELECT * FROM users WHERE email = (?)", [email])
+
+  //Checking if exist email already user
+  if(userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
+    throw new AppError("Email already another user!")
+  }
+
+  //associating variables
+  user.name = name
+  user.email = email
+
+  //checking if exist old password
+  if(password && !old_Password) {
+    throw new AppError("The old password not informed")
+  }
+
+  //checking of new password and old password
+  if(password && old_Password) {
+    const checkOldPassword = await compare(old_Password, user.password)
+
+    if(!checkOldPassword) {
+      throw new AppError("The old password is incorect")
+    }
+
+    user.password = await hash(old_Password, 8)
+
+  }
+
+  //updated data for database
+  database.run(`UPDATE users SET
+  name = ?,
+  email = ?,
+  password = ?,
+  updated_at =?
+  WHERE id = ?`, [user.name, user.email, user.password, new Date(), id])
+
+  //Status of upload data
+  return response.status(201).json()
   
+}
+
 }
   
 
