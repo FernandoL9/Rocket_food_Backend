@@ -1,6 +1,8 @@
 require("express-async-errors")
 
-const migrationsrun = require("./database/sqlite/migrations")
+// const migrationsrun = require("./database/sqlite/migrations")
+
+const database = require("./database/sqlite")
 
 const express = require("express"); // import express
 
@@ -16,7 +18,9 @@ const PORT = 3333; // port
 
 app.use(routes);
 
-migrationsrun()
+//  migrationsrun()
+
+database()
 
 app.use((error, request, response, next) => {
   if(error instanceof AppError) {

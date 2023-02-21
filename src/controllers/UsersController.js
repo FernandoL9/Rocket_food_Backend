@@ -58,8 +58,8 @@ class UsersController {
   }
 
   //associating variables
-  user.name = name
-  user.email = email
+  user.name  = name  ?? user.name 
+  user.email = email ?? user.email
 
   //checking if exist old password
   if(password && !old_Password) {
@@ -83,7 +83,7 @@ class UsersController {
   name = ?,
   email = ?,
   password = ?,
-  updated_at =?
+  updated_at = DATETIME("now")
   WHERE id = ?`, [user.name, user.email, user.password, new Date(), id])
 
   //Status of upload data
