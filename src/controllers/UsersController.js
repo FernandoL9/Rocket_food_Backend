@@ -58,7 +58,7 @@ class UsersController {
   }
 
   //associating variables
-  user.name  =  name ?? user.name
+  user.name =  name  ?? user.name 
   user.email = email ?? user.email
 
   //checking if exist old password
@@ -80,12 +80,11 @@ class UsersController {
 
   //updated data for database
   database.run(`UPDATE users SET
-  name =       ?,
-  email =      ?,
-  password =   ?,
-  updated_at = DATETIME("now")
-  WHERE id =   ?`, 
-  [user.name, user.email, user.password, id])
+  name = ?,
+  email = ?,
+  password = ?,
+  updated_at =?
+  WHERE id = ?`, [user.name, user.email, user.password, new Date(), id])
 
   //Status of upload data
   return response.status(201).json()
