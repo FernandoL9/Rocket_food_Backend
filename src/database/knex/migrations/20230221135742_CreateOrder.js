@@ -7,6 +7,7 @@ exports.up = knex => knex.schema.createTable("order", table => {
   table.integer("pay")
   table.integer("avaliation");
   
+  table.integer("category_id").references("id").inTable("category")
   table.timestamp("created_at").default(knex.fn.now());
   table.integer("dishes_id").references("id").inTable("dishes")
   table.text("price_dishes").references("price").inTable("dishes")
