@@ -18,7 +18,7 @@ class DishController {
     // search ingredient by method map
     const ingredientInsert = ingredients.map( ingredient => {
       return {
-        dish_id,
+        dishes_id : dish_id,
         name: ingredient
       }
     }) 
@@ -54,9 +54,24 @@ class DishController {
   async delete(request, response) {
     const {id} = request.params
 
-    await knex("dishes").delete({id})
+    console.log(id)
 
+   const del =  await knex("dishes").where({id}).delete()
+
+   console.log(del)
     response.json()
+  }
+
+  async index(request, response) {
+    const {user_id} = request.query
+
+    const alldishes =  await knex("dishes")
+
+    console.log(alldishes)
+
+   return response.json({
+      ...alldishes
+    })
   }
 
 }

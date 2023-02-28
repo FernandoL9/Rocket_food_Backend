@@ -1,4 +1,4 @@
-const knex = require("..")
+const knex = require("../database/knex")
 
 class CategoryController {
   async create(request, response) {
