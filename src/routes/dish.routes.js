@@ -10,6 +10,7 @@ const dishController = new DishController()
 dishRouter.post("/:user_id", dishController.create)
 dishRouter.get("/:id", dishController.show)
 dishRouter.delete("/:id", dishController.delete)
+// dishRouter.get("/", dishController.indexAll)
 dishRouter.get("/", dishController.index)
 
 module.exports = dishRouter

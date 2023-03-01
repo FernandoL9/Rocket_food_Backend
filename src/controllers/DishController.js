@@ -62,15 +62,55 @@ class DishController {
     response.json()
   }
 
+  // async indexAll(request, response) {
+
+  //   const alldishes =  await knex("dishes")
+
+  //   console.log(alldishes)
+
+  //  return response.json({
+  //     ...alldishes
+  //   })
+  // }
+
+  // usar para pesquisar por tags / title 
   async index(request, response) {
-    const {user_id} = request.query
+    const {title, ingredient, user_id} = request.query
 
-    const alldishes =  await knex("dishes")
+    let dish;
 
-    console.log(alldishes)
+    if(ingredient){
+      const filterIngredient = ingredient.split(',')
+      .map(tag => tag.trim())
+      
+      dish = await knex("ingredient")
+      .select([
+        "dishes.id",
+        "dishes.title",
+        "dishes.price",
+        "dishes.description",
+        "category.title as Category",
+        "ingredient.name",
+      ])
+      .whereLike("dishes.title", `%${title}%`)
+      .whereIn("name", filterIngredient)
+      .innerJoin("dishes", "dishes_id", "ingredient.dishes_id")
+      .innerJoin("category", "category.id", "dishes.category_id")
+      // .innerJoin("dishes", "category_id", "category.id")
+      .groupBy("dishes.id")
+      .orderBy("dishes.title")
 
+    }else{
+
+      dish =  await knex("dishes")
+      .where({user_id})
+      .whereLike("title",`%${title}%`)
+      .orderBy("title")
+
+   
+    }
    return response.json({
-      ...alldishes
+      dish
     })
   }
 
