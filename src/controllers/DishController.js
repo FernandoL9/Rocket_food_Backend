@@ -90,7 +90,7 @@ class DishController {
         "dishes.price",
         "dishes.description",
         "category.title as Category",
-        "ingredient.name",
+        "ingredient.name as Ingredient",
       ])
       .whereLike("dishes.title", `%${title}%`)
       .whereIn("name", filterIngredient)
@@ -107,10 +107,33 @@ class DishController {
       .whereLike("title",`%${title}%`)
       .orderBy("title")
 
-   
     }
+
+    const dishID = await knex("dishes")
+    
+    const newArray = dishID.map(tag => {
+      return{
+        id : tag.id
+      }
+    })
+
+    console.log(newArray)
+
+    const IngredientWithDish = await knex("ingredient")
+    const dishWithIngredient =  dishID.map(dishes => {
+      const dishesIngredient = IngredientWithDish.filter(tag => tag.dishes_id === dishes.id);
+
+      return {
+        ...dish,
+        ingredients : dishesIngredient
+      }
+    })
+
+    console.log(dishWithIngredient)
+
    return response.json({
-      dish
+      ...dish,
+      IngredientWithDish
     })
   }
 
