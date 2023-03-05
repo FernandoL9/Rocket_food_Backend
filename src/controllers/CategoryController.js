@@ -13,6 +13,14 @@ class CategoryController {
     })
     return response.json()
   }
+
+  async show(request, response) {
+    const {user_id} = request.params
+
+    const category = await knex("category").where({user_id})
+
+    return response.json(category)
+  }
 }
 
 module.exports = CategoryController
